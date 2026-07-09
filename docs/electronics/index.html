@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>高職電子學互動式家教</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="circuit-field" aria-hidden="true"></div>
+    <main class="app-shell">
+      <nav class="portal-nav" aria-label="分科導覽">
+        <a id="homeLink" class="portal-home-link" href="../">← 返回科目首頁</a>
+      </nav>
+
+      <header class="hero">
+        <div>
+          <p class="eyebrow">高職電子學 · 全課程預習版</p>
+          <h1>電子學電子家教老師</h1>
+          <p class="hero-copy">先教概念與原理，再做一題確認。可先教學、直接練習或先診斷，答對才前進。</p>
+        </div>
+        <div class="meter-card" aria-label="目前總進度">
+          <span id="overallPercent">0%</span>
+          <small>總進度</small>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <aside class="panel progress-panel" aria-label="課程進度">
+          <div class="panel-title">
+            <span>課程路線</span>
+            <strong id="chapterCounter">第 1 / 24 章</strong>
+          </div>
+          <ol id="chapterList" class="chapter-list"></ol>
+        </aside>
+
+        <section class="chat-card" aria-label="家教聊天區">
+          <div class="chat-status">
+            <div>
+              <p class="eyebrow">目前任務</p>
+              <h2 id="currentChapter">第一章：半導體基礎與 PN 接面</h2>
+              <p id="currentGoal">理解電子、電洞、摻雜、順偏與逆偏。</p>
+            </div>
+            <div class="status-actions">
+              <a id="statusHomeLink" class="home-button" href="../">回首頁</a>
+              <button id="resetButton" class="ghost-button" type="button">重置進度</button>
+            </div>
+          </div>
+
+          <section id="lessonVideoCard" class="lesson-video-card" aria-label="概念教學影片">
+            <div class="lesson-video-copy">
+              <p class="eyebrow">概念教學影片</p>
+              <h3 id="lessonVideoTitle">請先完成概念影片</h3>
+              <p id="lessonVideoStatus">若內嵌影片無法播放，請按「前往 YouTube 觀看影片」。學習完後，再按下方按鈕開始家教互動。</p>
+            </div>
+            <iframe
+              id="lessonVideoFrame"
+              title="目前概念教學影片"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            <a id="lessonVideoSourceLink" class="lesson-video-primary-link" href="#" target="_blank" rel="noopener noreferrer">前往 YouTube 觀看影片</a>
+            <button id="markVideoCompleteButton" type="button">我已學完，開始互動</button>
+          </section>
+
+          <div id="chatLog" class="chat-log" aria-live="polite"></div>
+
+          <form id="answerForm" class="answer-form">
+            <label for="answerInput">學生回答</label>
+            <div class="input-row">
+              <input id="answerInput" name="answer" autocomplete="off" placeholder="例如：電洞、0.7V、-Rf/Rin" />
+              <button id="voiceButton" class="voice-button" type="button" aria-label="用麥克風輸入答案">🎙</button>
+              <button id="submitAnswerButton" type="submit">送出</button>
+            </div>
+            <p id="voiceStatus" class="voice-status" aria-live="polite">可用鍵盤輸入，也可使用麥克風。</p>
+            <section id="handwritingPanel" class="handwriting-panel" aria-label="手寫計算區">
+              <div class="handwriting-head">
+                <div>
+                  <strong>手寫計算區</strong>
+                  <small>適合用電子筆寫公式、代入與單位。</small>
+                </div>
+                <div class="handwriting-actions">
+                  <button id="handwritingClearButton" type="button">清除</button>
+                  <button id="handwritingAnalyzeButton" type="button">辨識算式</button>
+                </div>
+              </div>
+              <canvas id="handwritingCanvas" width="720" height="220"></canvas>
+              <p id="handwritingStatus" class="handwriting-status" aria-live="polite">可用電子筆手寫計算過程。</p>
+            </section>
+          </form>
+        </section>
+
+        <aside class="panel diagnostic-panel" aria-label="學生診斷">
+          <div class="diagnostic-block">
+            <h3>學習入口</h3>
+            <div class="mode-actions" aria-label="學習入口選擇">
+              <button id="teachModeButton" type="button">先教學</button>
+              <button id="practiceModeButton" type="button">直接練習</button>
+              <button id="diagnosticModeButton" type="button">先做診斷</button>
+            </div>
+          </div>
+
+          <div class="panel-title">
+            <span>學習診斷</span>
+            <strong id="accuracyText">正確率 0%</strong>
+          </div>
+
+          <div class="diagnostic-block">
+            <h3>熟練度</h3>
+            <div id="masteryList" class="mastery-list"></div>
+          </div>
+
+          <div class="diagnostic-block">
+            <h3>常見錯誤</h3>
+            <ul id="errorList" class="error-list"></ul>
+          </div>
+
+          <div class="diagnostic-block">
+            <h3>加強練習</h3>
+            <div class="practice-actions">
+              <button id="practiceButton" type="button">題庫練習</button>
+              <button id="examButton" type="button">統測型題</button>
+              <button id="remediationButton" type="button">錯題回補</button>
+            </div>
+          </div>
+
+          <div class="diagnostic-block">
+            <h3>目前概念影片</h3>
+            <ul id="videoList" class="video-list"></ul>
+          </div>
+
+          <button id="exportButton" class="export-button" type="button">匯出學生進度</button>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./src/tutor-engine-classic.js"></script>
+    <script src="./src/handwriting-pad.js"></script>
+    <script src="./src/app-classic.js"></script>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>高職互動式機器家教老師</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="circuit-field" aria-hidden="true"></div>
+    <main class="app-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">高職學科 · 分科家教總入口</p>
+          <h1>互動式機器家教老師</h1>
+          <p class="hero-copy">選擇科目後進入專屬家教。每科保留影片、診斷、練習與錯題回補，學習進度存在自己的瀏覽器。</p>
+        </div>
+        <div class="meter-card" aria-label="目前已建置科目">
+          <span>2</span>
+          <small>已上線科目</small>
+        </div>
+      </header>
+
+      <section class="workspace" aria-label="科目選擇">
+        <aside class="panel route-panel">
+          <div class="panel-title">
+            <span>科目路線</span>
+            <strong>第 1 / 3 科</strong>
+          </div>
+          <ol class="subject-list" aria-label="可選科目">
+            <li class="current">
+              <span class="subject-number">1</span>
+              <div>
+                <strong>基礎電學</strong>
+                <small>電荷、電流、電壓、電阻、串並聯與電橋。</small>
+              </div>
+            </li>
+            <li>
+              <span class="subject-number">2</span>
+              <div>
+                <strong>電子學</strong>
+                <small>二極體、BJT、FET、OP、數位邏輯與整合題。</small>
+              </div>
+            </li>
+            <li class="disabled">
+              <span class="subject-number">3</span>
+              <div>
+                <strong>數學</strong>
+                <small>規劃中，之後可接上數學家教課程。</small>
+              </div>
+            </li>
+          </ol>
+        </aside>
+
+        <section class="launch-card" aria-label="目前任務">
+          <div class="launch-status">
+            <div>
+              <p class="eyebrow">目前任務</p>
+              <h2>選擇要進入的家教科目</h2>
+              <p>已完成的科目可以直接開啟；尚未完成的科目先保留入口位置。</p>
+            </div>
+          </div>
+
+          <div class="subject-grid">
+            <a class="subject-card ready" href="./basic-electricity/?v=home-button-20260708c">
+              <span class="subject-tag">已上線</span>
+              <h3>基礎電學</h3>
+              <p>從符號、公式、單位換算到串並聯與全課程診斷。</p>
+              <svg viewBox="0 0 260 120" role="img" aria-label="基礎電學電路示意圖">
+                <path d="M28 60h44M188 60h44M72 38v44M188 38v44" />
+                <path d="M72 38h116M72 82h116" />
+                <path d="M108 60h16l8-18 16 36 8-18h24" />
+                <text x="34" y="50">V</text>
+                <text x="202" y="50">R</text>
+              </svg>
+              <span class="launch-link">進入基礎電學</span>
+            </a>
+
+            <a class="subject-card ready" href="./electronics/?v=home-button-20260708c">
+              <span class="subject-tag">已上線</span>
+              <h3>電子學</h3>
+              <p>預習半導體、二極體、電晶體、OP 與數位邏輯。</p>
+              <svg viewBox="0 0 260 120" role="img" aria-label="電子學元件示意圖">
+                <path d="M28 60h62" />
+                <path d="M90 34l58 26-58 26z" />
+                <path d="M154 34v52M154 60h78" />
+                <circle cx="190" cy="60" r="20" />
+                <path d="M184 52l14 8-14 8" />
+                <text x="42" y="50">PN</text>
+                <text x="178" y="104">BJT</text>
+              </svg>
+              <span class="launch-link">進入電子學</span>
+            </a>
+
+            <a class="subject-card pending" href="./math/?v=home-button-20260708c">
+              <span class="subject-tag">建置中</span>
+              <h3>數學</h3>
+              <p>之後可放入高職數學的公式、圖形、練習與診斷。</p>
+              <svg viewBox="0 0 260 120" role="img" aria-label="數學座標示意圖">
+                <path d="M38 92h184M70 102V24" />
+                <path d="M70 78c28-42 58-52 92-16 16 17 30 22 54 3" />
+                <text x="200" y="104">x</text>
+                <text x="52" y="34">y</text>
+              </svg>
+              <span class="launch-link">查看建置狀態</span>
+            </a>
+          </div>
+        </section>
+
+        <aside class="panel diagnostic-panel" aria-label="網站狀態">
+          <div class="panel-title">
+            <span>上線狀態</span>
+            <strong>2 / 3</strong>
+          </div>
+          <div class="diagnostic-block">
+            <h3>已可使用</h3>
+            <div class="status-row">
+              <span>基礎電學</span>
+              <strong>24 章</strong>
+            </div>
+            <div class="status-row">
+              <span>電子學</span>
+              <strong>24 章</strong>
+            </div>
+          </div>
+          <div class="diagnostic-block">
+            <h3>下一科</h3>
+            <div class="notice">數學家教尚未建立課程資料，先不放空內容。</div>
+          </div>
+          <div class="diagnostic-block">
+            <h3>提醒</h3>
+            <p class="side-note">影片需要網路；如果內嵌影片受限制，各科頁面都有 YouTube 外部連結。</p>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
