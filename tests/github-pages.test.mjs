@@ -23,10 +23,22 @@ test("subject pages return to GitHub Pages relative homepage", () => {
 test("GitHub Pages static app does not call Firebase Functions by default", () => {
   const basicApp = readFileSync("docs/basic-electricity/src/app-classic.js", "utf8");
   const electronicsApp = readFileSync("docs/electronics/src/app-classic.js", "utf8");
+  const config = readFileSync("docs/config.js", "utf8");
 
   for (const source of [basicApp, electronicsApp]) {
     assert.match(source, /HANDWRITING_ANALYSIS_ENDPOINT/);
     assert.doesNotMatch(source, /return window\.location\?\.protocol\?\.startsWith\("http"\) \? "\/api\/analyze-handwriting" : ""/);
+  }
+
+  assert.match(config, /interactive-tutor-handwriting\.bee6389\.workers\.dev/);
+});
+
+test("subject pages load shared handwriting endpoint config", () => {
+  const basicHtml = readFileSync("docs/basic-electricity/index.html", "utf8");
+  const electronicsHtml = readFileSync("docs/electronics/index.html", "utf8");
+
+  for (const html of [basicHtml, electronicsHtml]) {
+    assert.match(html, /<script src="\.\.\/config\.js"><\/script>/);
   }
 });
 
