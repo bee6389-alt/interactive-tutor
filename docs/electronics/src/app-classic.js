@@ -76,8 +76,8 @@ elements.answerForm.addEventListener("submit", (event) => {
   const learningUnitChanged = previousLearningUnitKey !== getCurrentLearningUnitKey();
   elements.answerInput.value = "";
   if (learningUnitChanged) {
+    addResultMessages(result.messages);
     renderAll();
-    renderConversation();
     scrollToCurrentUnitStart();
     return;
   }

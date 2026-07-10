@@ -51,6 +51,15 @@ test("subject pages cache-bust their stylesheet after layout fixes", () => {
   }
 });
 
+test("subject pages cache-bust the answer flow script", () => {
+  const basicHtml = readFileSync("docs/basic-electricity/index.html", "utf8");
+  const electronicsHtml = readFileSync("docs/electronics/index.html", "utf8");
+
+  for (const html of [basicHtml, electronicsHtml]) {
+    assert.match(html, /<script src="\.\/src\/app-classic\.js\?v=answer-flow-20260710"><\/script>/);
+  }
+});
+
 test("GitHub Pages homepage keeps relative subject links", () => {
   const html = readFileSync("docs/index.html", "utf8");
 
@@ -84,5 +93,34 @@ test("published video completion controls stay visible before the embedded video
     assert.match(source, /#lessonVideoSourceLink\s*\{\s*order:\s*2;/);
     assert.match(source, /#markVideoCompleteButton\s*\{\s*order:\s*3;/);
     assert.match(source, /#lessonVideoFrame\s*\{\s*order:\s*4;/);
+  }
+});
+
+test("electronics video completion controls use the basic electricity high-contrast style", () => {
+  const electronicsStyles = readFileSync("docs/electronics/styles.css", "utf8");
+
+  assert.match(
+    electronicsStyles,
+    /\.lesson-video-card \.lesson-video-primary-link \{[\s\S]*?border-radius: 14px;[\s\S]*?color: #171207;[\s\S]*?background: var\(--amber\);[\s\S]*?\}/,
+  );
+  assert.match(
+    electronicsStyles,
+    /\.lesson-video-card button \{[\s\S]*?min-height: 48px;[\s\S]*?background: var\(--amber\);[\s\S]*?color: #171207;[\s\S]*?\}/,
+  );
+});
+
+test("answered transition keeps the submitted answer and feedback visible", () => {
+  const basicApp = readFileSync("docs/basic-electricity/src/app-classic.js", "utf8");
+  const electronicsApp = readFileSync("docs/electronics/src/app-classic.js", "utf8");
+
+  for (const source of [basicApp, electronicsApp]) {
+    assert.match(
+      source,
+      /if \(learningUnitChanged\) \{\s*addResultMessages\(result\.messages\);\s*renderAll\(\);\s*scrollToCurrentUnitStart\(\);\s*return;\s*\}/,
+    );
+    assert.doesNotMatch(
+      source,
+      /if \(learningUnitChanged\) \{\s*renderAll\(\);\s*renderConversation\(\);\s*scrollToCurrentUnitStart\(\);\s*return;\s*\}/,
+    );
   }
 });
