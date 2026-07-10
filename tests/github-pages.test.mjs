@@ -42,6 +42,15 @@ test("subject pages load shared handwriting endpoint config", () => {
   }
 });
 
+test("subject pages cache-bust their stylesheet after layout fixes", () => {
+  const basicHtml = readFileSync("docs/basic-electricity/index.html", "utf8");
+  const electronicsHtml = readFileSync("docs/electronics/index.html", "utf8");
+
+  for (const html of [basicHtml, electronicsHtml]) {
+    assert.match(html, /<link rel="stylesheet" href="\.\/styles\.css\?v=video-button-20260710" \/>/);
+  }
+});
+
 test("GitHub Pages homepage keeps relative subject links", () => {
   const html = readFileSync("docs/index.html", "utf8");
 
