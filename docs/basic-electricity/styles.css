@@ -348,6 +348,22 @@ h1 {
   display: none;
 }
 
+.lesson-video-copy {
+  order: 1;
+}
+
+#lessonVideoSourceLink {
+  order: 2;
+}
+
+#markVideoCompleteButton {
+  order: 3;
+}
+
+#lessonVideoFrame {
+  order: 4;
+}
+
 .lesson-video-copy h3 {
   margin: 4px 0;
   color: var(--text);

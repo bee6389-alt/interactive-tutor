@@ -66,3 +66,14 @@ test("published tutors keep only the current learning unit conversation", () => 
     );
   }
 });
+
+test("published video completion controls stay visible before the embedded video", () => {
+  const basicStyles = readFileSync("docs/basic-electricity/styles.css", "utf8");
+  const electronicsStyles = readFileSync("docs/electronics/styles.css", "utf8");
+
+  for (const source of [basicStyles, electronicsStyles]) {
+    assert.match(source, /#lessonVideoSourceLink\s*\{\s*order:\s*2;/);
+    assert.match(source, /#markVideoCompleteButton\s*\{\s*order:\s*3;/);
+    assert.match(source, /#lessonVideoFrame\s*\{\s*order:\s*4;/);
+  }
+});
