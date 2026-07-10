@@ -49,3 +49,20 @@ test("GitHub Pages homepage keeps relative subject links", () => {
   assert.match(html, /href="\.\/electronics\/\?v=home-button-20260708c"/);
   assert.match(html, /href="\.\/math\/\?v=home-button-20260708c"/);
 });
+
+test("published tutors keep only the current learning unit conversation", () => {
+  const basicApp = readFileSync("docs/basic-electricity/src/app-classic.js", "utf8");
+  const electronicsApp = readFileSync("docs/electronics/src/app-classic.js", "utf8");
+
+  for (const source of [basicApp, electronicsApp]) {
+    assert.match(source, /function getCurrentUnitTranscript\(\)/);
+    assert.match(source, /entry\.chapter === unit\.chapterTitle && entry\.concept === unit\.concept/);
+    assert.match(source, /const currentTranscript = getCurrentUnitTranscript\(\)/);
+    assert.match(source, /function scrollToCurrentUnitStart\(\)/);
+    assert.match(source, /function scrollToAnswerArea\(\)/);
+    assert.match(
+      source,
+      /markVideoCompleteButton\.addEventListener\("click",[\s\S]*?renderConversation\(\);\s*scrollToAnswerArea\(\);/,
+    );
+  }
+});

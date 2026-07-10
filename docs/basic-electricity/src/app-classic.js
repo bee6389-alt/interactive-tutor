@@ -48,6 +48,7 @@ elements.answerForm.addEventListener("submit", (event) => {
   const answer = elements.answerInput.value.trim();
   if (!answer) return;
 
+  const previousLearningUnitKey = getCurrentLearningUnitKey();
   addStudentMessage(answer);
   const result = state.activePracticeQuestion
     ? tutorEngine.handlePracticeAnswer(tutorEngine.COURSE, state, answer)
@@ -55,9 +56,16 @@ elements.answerForm.addEventListener("submit", (event) => {
   state = result.state;
   saveState();
 
-  addResultMessages(result.messages);
-
+  const learningUnitChanged = previousLearningUnitKey !== getCurrentLearningUnitKey();
   elements.answerInput.value = "";
+  if (learningUnitChanged) {
+    renderAll();
+    renderConversation();
+    scrollToCurrentUnitStart();
+    return;
+  }
+
+  addResultMessages(result.messages);
   renderAll();
 });
 
@@ -252,6 +260,7 @@ function selectChapter(index) {
   saveState();
   renderAll();
   renderConversation();
+  scrollToCurrentUnitStart();
 }
 
 function renderMastery(labels) {
@@ -333,7 +342,8 @@ function renderLessonVideoGate() {
 function renderConversation() {
   elements.chatLog.innerHTML = "";
   const gate = tutorEngine.getCurrentLessonGate(tutorEngine.COURSE, state);
-  if (state.transcript.length === 0) {
+  const currentTranscript = getCurrentUnitTranscript();
+  if (currentTranscript.length === 0) {
     addTutorMessage("我們開始。每次我只問一題，你答完後我會判斷是否能前進。");
     if (isLessonLocked(gate)) {
       addTutorMessage("請先看完這個概念影片，再開始回答家教問題。");
@@ -344,7 +354,7 @@ function renderConversation() {
   }
 
   addTutorMessage("接續上次進度。");
-  for (const entry of state.transcript) {
+  for (const entry of currentTranscript) {
     addTutorMessage(entry.prompt);
     addStudentMessage(entry.answer);
     addTutorMessage(entry.correct ? "這題已通過。" : `這題錯在「${entry.errorType}」。`);
@@ -356,11 +366,54 @@ function renderConversation() {
   }
 }
 
+function getCurrentLearningUnit() {
+  const chapter = tutorEngine.COURSE.chapters[state.chapterIndex];
+  const step = chapter?.steps?.[state.stepIndex];
+  return { chapterTitle: chapter?.title || "", concept: step?.concept || "" };
+}
+
+function getCurrentUnitTranscript() {
+  const unit = getCurrentLearningUnit();
+  return state.transcript.filter(
+    (entry) => entry.chapter === unit.chapterTitle && entry.concept === unit.concept,
+  );
+}
+
+function getCurrentLearningUnitKey() {
+  const unit = getCurrentLearningUnit();
+  return `${unit.chapterTitle}::${unit.concept}`;
+}
+
+function scrollToCurrentUnitStart() {
+  const gate = tutorEngine.getCurrentLessonGate(tutorEngine.COURSE, state);
+  const target = gate.requiresVideo ? elements.lessonVideoCard : elements.chatLog;
+  target?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+}
+
+function scrollToAnswerArea() {
+  elements.answerInput?.focus?.();
+  const scroll = () => {
+    const rect = elements.answerInput?.getBoundingClientRect?.();
+    if (rect && typeof window.scrollTo === "function") {
+      const top = (window.scrollY || 0) + rect.top - ((window.innerHeight || 0) - rect.height) / 2;
+      window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+      return;
+    }
+    elements.answerInput?.scrollIntoView?.({ behavior: "auto", block: "center" });
+  };
+  if (typeof window.setTimeout === "function") {
+    window.setTimeout(scroll, 100);
+  } else {
+    scroll();
+  }
+}
+
 elements.markVideoCompleteButton.addEventListener("click", () => {
   state = tutorEngine.markCurrentLessonVideoComplete(tutorEngine.COURSE, state);
   saveState();
   renderAll();
   renderConversation();
+  scrollToAnswerArea();
 });
 
 function isLessonLocked(gate) {
